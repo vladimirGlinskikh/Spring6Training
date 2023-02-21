@@ -27,50 +27,54 @@ public class BootstrapData implements CommandLineRunner {
         john.setFirstName("John");
         john.setLastName("Thompson");
 
-        Book book = new Book();
-        book.setTitle("Spring framework from Beginners to Guru");
-        book.setIsbn("1243231289");
+        Book johnBook = new Book();
+        johnBook.setTitle("Spring framework from Beginners to Guru");
+        johnBook.setIsbn("1243231289");
 
-        Publisher publisher = new Publisher();
-        publisher.setPublisherName("O'Reilly");
-        publisher.setAddress("658 Goosetown Drive");
-        publisher.setCity("Matthews");
-        publisher.setState("North Carolina");
-        publisher.setZip(28105);
+        Publisher johnPublisher = new Publisher();
+        johnPublisher.setPublisherName("O'Reilly");
+        johnPublisher.setAddress("658 Goosetown Drive");
+        johnPublisher.setCity("Matthews");
+        johnPublisher.setState("North Carolina");
+        johnPublisher.setZip(28105);
 
         Author johnSaved = authorRepository.save(john);
-        Book bookSaved = bookRepository.save(book);
-        Publisher publisherSaved1 = publisherRepository.save(publisher);
+        Book johnBookSaved = bookRepository.save(johnBook);
+        Publisher johnPublisherSaved = publisherRepository.save(johnPublisher);
+
+        System.out.println("------------------------------------");
 
         Author laur = new Author();
-        john.setFirstName("Laur");
-        john.setLastName("Spilca");
+        laur.setFirstName("Laur");
+        laur.setLastName("Spilca");
 
-        Book book1 = new Book();
-        book.setTitle("Spring Security in Action");
-        book.setIsbn("34367425476");
+        Book laurBook = new Book();
+        laurBook.setTitle("Spring Security in Action");
+        laurBook.setIsbn("34367425476");
 
-        Publisher publisher1 = new Publisher();
-        publisher1.setPublisherName("Maning");
-        publisher1.setAddress("2732 Hardman Road");
-        publisher1.setCity("Brattleboro");
-        publisher1.setState("Vermont");
-        publisher1.setZip(05301);
+        Publisher laurPublisher = new Publisher();
+        laurPublisher.setPublisherName("Maning");
+        laurPublisher.setAddress("2732 Hardman Road");
+        laurPublisher.setCity("Brattleboro");
+        laurPublisher.setState("Vermont");
+        laurPublisher.setZip(05301);
 
         Author laurSaved = authorRepository.save(laur);
-        Book book1Saved = bookRepository.save(book1);
-        Publisher publisherSaved2 = publisherRepository.save(publisher1);
+        Book laurBookSaved = bookRepository.save(laurBook);
+        Publisher laurPublisherSaved = publisherRepository.save(laurPublisher);
 
-        johnSaved.getBooks().add(bookSaved);
-        laurSaved.getBooks().add(book1Saved);
+        johnSaved.getBooks().add(johnBookSaved);
+        laurSaved.getBooks().add(laurBookSaved);
+        johnBookSaved.getAuthors().add(johnSaved);
+        laurBookSaved.getAuthors().add(laurSaved);
 
-        bookSaved.setPublisher(publisherSaved1);
-        book1Saved.setPublisher(publisherSaved2);
+        johnBookSaved.setPublisher(johnPublisherSaved);
+        laurBookSaved.setPublisher(laurPublisherSaved);
 
         authorRepository.save(johnSaved);
         authorRepository.save(laurSaved);
-        bookRepository.save(bookSaved);
-        bookRepository.save(book1Saved);
+        bookRepository.save(johnBookSaved);
+        bookRepository.save(laurBookSaved);
 
         System.out.println("In Bootstrap");
         System.out.println("Author count: " + authorRepository.count());
