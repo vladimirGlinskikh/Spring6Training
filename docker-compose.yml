@@ -7,7 +7,7 @@ services:
     ports:
       - "3307:3306"
     environment:
-      MYSQL_DATABASE: test
+      MYSQL_DATABASE: book_shelf
       MYSQL_ROOT_PASSWORD: root
 
 
