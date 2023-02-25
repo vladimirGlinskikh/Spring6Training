@@ -1,11 +1,11 @@
-package kz.zhelezyaka.Spring6Training.bootstrap;
+package kz.zhelezyaka.spring6Training_2.bookShelf.bootstrap;
 
-import kz.zhelezyaka.Spring6Training.domain.Author;
-import kz.zhelezyaka.Spring6Training.domain.Book;
-import kz.zhelezyaka.Spring6Training.domain.Publisher;
-import kz.zhelezyaka.Spring6Training.repositories.AuthorRepository;
-import kz.zhelezyaka.Spring6Training.repositories.BookRepository;
-import kz.zhelezyaka.Spring6Training.repositories.PublishRepository;
+import kz.zhelezyaka.spring6Training_2.bookShelf.domain.Author;
+import kz.zhelezyaka.spring6Training_2.bookShelf.domain.Book;
+import kz.zhelezyaka.spring6Training_2.bookShelf.domain.Publisher;
+import kz.zhelezyaka.spring6Training_2.bookShelf.repositories.AuthorRepository;
+import kz.zhelezyaka.spring6Training_2.bookShelf.repositories.BookRepository;
+import kz.zhelezyaka.spring6Training_2.bookShelf.repositories.PublishRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 

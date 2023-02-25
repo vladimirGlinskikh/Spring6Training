@@ -1,7 +1,7 @@
-package kz.zhelezyaka.Spring6Training.services;
+package kz.zhelezyaka.spring6Training_2.bookShelf.services;
 
-import kz.zhelezyaka.Spring6Training.domain.Book;
-import kz.zhelezyaka.Spring6Training.repositories.BookRepository;
+import kz.zhelezyaka.spring6Training_2.bookShelf.domain.Book;
+import kz.zhelezyaka.spring6Training_2.bookShelf.repositories.BookRepository;
 import org.springframework.stereotype.Service;
 
 @Service

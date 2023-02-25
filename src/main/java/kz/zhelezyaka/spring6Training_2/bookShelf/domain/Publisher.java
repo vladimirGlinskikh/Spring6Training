@@ -1,4 +1,4 @@
-package kz.zhelezyaka.Spring6Training.domain;
+package kz.zhelezyaka.spring6Training_2.bookShelf.domain;
 
 import jakarta.persistence.*;
 

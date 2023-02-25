@@ -1,4 +1,4 @@
-package kz.zhelezyaka.Spring6Training;
+package kz.zhelezyaka.spring6Training_2;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

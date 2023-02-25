@@ -1,6 +1,6 @@
-package kz.zhelezyaka.Spring6Training.controllers;
+package kz.zhelezyaka.spring6Training_2.bookShelf.controllers;
 
-import kz.zhelezyaka.Spring6Training.services.AuthorService;
+import kz.zhelezyaka.spring6Training_2.bookShelf.services.AuthorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
