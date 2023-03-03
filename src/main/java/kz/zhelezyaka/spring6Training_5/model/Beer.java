@@ -1,11 +1,13 @@
 package kz.zhelezyaka.spring6Training_5.model;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Builder
 @Data
 public class Beer {
     private UUID id;
