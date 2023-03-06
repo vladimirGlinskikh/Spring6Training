@@ -14,8 +14,4 @@ public class Customer {
     private Integer version;
     private LocalDateTime createdDate;
     private LocalDateTime updateDate;
-
-    public String getName() {
-        return name;
-    }
 }

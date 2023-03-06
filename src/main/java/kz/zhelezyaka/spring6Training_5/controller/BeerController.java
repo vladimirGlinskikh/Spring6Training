@@ -20,7 +20,6 @@ public class BeerController {
     private final BeerServices beerServices;
 
     @PostMapping
-//    @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity handlePost(@RequestBody Beer beer) {
         Beer savedBeer = beerServices.saveNewBeer(beer);
         HttpHeaders headers = new HttpHeaders();
