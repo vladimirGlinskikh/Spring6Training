@@ -19,6 +19,13 @@ import java.util.UUID;
 public class BeerController {
     private final BeerServices beerServices;
 
+    @PutMapping("{beerId}")
+    public ResponseEntity updateById(@PathVariable("beerId") UUID beerId,
+                                     @RequestBody Beer beer) {
+        beerServices.updateBeerById(beerId, beer);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
     @PostMapping
     public ResponseEntity handlePost(@RequestBody Beer beer) {
         Beer savedBeer = beerServices.saveNewBeer(beer);
