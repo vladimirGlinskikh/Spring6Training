@@ -1,7 +1,9 @@
 package kz.zhelezyaka.spring6Training_5.services;
 
+import kz.zhelezyaka.spring6Training_5.model.Beer;
 import kz.zhelezyaka.spring6Training_5.model.Customer;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -78,5 +80,23 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public void deleteById(UUID customerId) {
         customerMap.remove(customerId);
+    }
+
+    @Override
+    public void patchCustomerById(UUID customerId, Customer customer) {
+        Customer existing = customerMap.get(customerId);
+
+        if (StringUtils.hasText(customer.getName())) {
+            existing.setName(customer.getName());
+        }
+        if (customer.getVersion() != null) {
+            existing.setVersion(customer.getVersion());
+        }
+        if (customer.getCreatedDate() != null) {
+            existing.setCreatedDate(customer.getCreatedDate());
+        }
+        if (customer.getUpdateDate() != null) {
+            existing.setUpdateDate(customer.getUpdateDate());
+        }
     }
 }

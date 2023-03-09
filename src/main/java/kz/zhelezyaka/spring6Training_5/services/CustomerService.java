@@ -1,5 +1,6 @@
 package kz.zhelezyaka.spring6Training_5.services;
 
+import kz.zhelezyaka.spring6Training_5.model.Beer;
 import kz.zhelezyaka.spring6Training_5.model.Customer;
 
 import java.util.List;
@@ -15,4 +16,6 @@ public interface CustomerService {
     void updateCustomerById(UUID customerId, Customer customer);
 
     void deleteById(UUID customerId);
+
+    void patchCustomerById(UUID customerId, Customer customer);
 }
