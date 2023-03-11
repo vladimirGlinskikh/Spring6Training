@@ -1,6 +1,5 @@
 package kz.zhelezyaka.spring6Training_5.controller;
 
-import kz.zhelezyaka.spring6Training_5.model.Beer;
 import kz.zhelezyaka.spring6Training_5.model.Customer;
 import kz.zhelezyaka.spring6Training_5.services.CustomerService;
 import lombok.RequiredArgsConstructor;
@@ -46,12 +45,13 @@ public class CustomerController {
 
     @RequestMapping(method = RequestMethod.GET)
     public List<Customer> listAllCustomers() {
-        return customerService.getAllCustomers();
+        return customerService.listCustomers();
     }
 
-    @RequestMapping("/{customerId}")
-    public Customer getCustomerById(@PathVariable("customerId") UUID id) {
-        return customerService.getCustomerById(id);
+    @RequestMapping(value = "{customerId}", method = RequestMethod.GET)
+    public Customer getCustomerById(@PathVariable("customerId") UUID customerId) {
+        log.debug("Get Customer by id - in controller");
+        return customerService.getCustomerById(customerId);
     }
 
     @DeleteMapping("{customerId}")

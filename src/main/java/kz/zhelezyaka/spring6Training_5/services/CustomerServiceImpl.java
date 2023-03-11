@@ -1,13 +1,14 @@
 package kz.zhelezyaka.spring6Training_5.services;
 
-import kz.zhelezyaka.spring6Training_5.model.Beer;
 import kz.zhelezyaka.spring6Training_5.model.Customer;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.*;
 
+@Slf4j
 @Service
 public class CustomerServiceImpl implements CustomerService {
     private final Map<UUID, Customer> customerMap;
@@ -44,12 +45,13 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer getCustomerById(UUID uuid) {
-        return customerMap.get(uuid);
+    public Customer getCustomerById(UUID id) {
+        log.debug("Get Customer by ID - in service. ID: " + id.toString());
+        return customerMap.get(id);
     }
 
     @Override
-    public List<Customer> getAllCustomers() {
+    public List<Customer> listCustomers() {
         return new ArrayList<>(customerMap.values());
     }
 
