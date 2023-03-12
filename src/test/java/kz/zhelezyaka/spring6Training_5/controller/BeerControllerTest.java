@@ -1,5 +1,7 @@
 package kz.zhelezyaka.spring6Training_5.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import kz.zhelezyaka.spring6Training_5.model.Beer;
 import kz.zhelezyaka.spring6Training_5.services.BeerServices;
 import kz.zhelezyaka.spring6Training_5.services.BeerServicesImpl;
@@ -20,10 +22,21 @@ class BeerControllerTest {
     @Autowired
     MockMvc mockMvc;
 
+    @Autowired
+    ObjectMapper objectMapper;
+
     @MockBean
     BeerServices beerServices;
 
     BeerServicesImpl beerServicesImpl = new BeerServicesImpl();
+
+    @Test
+    void testCreateNewBeer() throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.findAndRegisterModules();
+        Beer beer = beerServicesImpl.listBeers().get(0);
+        System.out.println(objectMapper.writeValueAsString(beer));
+    }
 
     @Test
     void testListBeers() throws Exception {
