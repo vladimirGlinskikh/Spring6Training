@@ -1,6 +1,7 @@
 package kz.zhelezyaka.spring6Training_5.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import kz.zhelezyaka.spring6Training_5.exceptions.NotFoundException;
 import kz.zhelezyaka.spring6Training_5.model.Customer;
 import kz.zhelezyaka.spring6Training_5.services.CustomerService;
 import kz.zhelezyaka.spring6Training_5.services.CustomerServiceImpl;
@@ -139,5 +140,13 @@ class CustomerControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id", is(testCustomer.getId().toString())))
                 .andExpect(jsonPath("$.customerName", is(testCustomer.getCustomerName())));
+    }
+
+    @Test
+    void getCustomerByIdNotFound() throws Exception {
+        given(customerService.getCustomerById(any(UUID.class))).willThrow(NotFoundException.class);
+
+        mockMvc.perform(get(CustomerController.CUSTOMER_PATH_ID, UUID.randomUUID()))
+                .andExpect(status().isNotFound());
     }
 }
