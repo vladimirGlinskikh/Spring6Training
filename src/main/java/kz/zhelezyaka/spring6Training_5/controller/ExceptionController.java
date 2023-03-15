@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @Slf4j
-@ControllerAdvice
+//@ControllerAdvice
 public class ExceptionController {
 
-    @ExceptionHandler(NotFoundException.class)
+//    @ExceptionHandler(NotFoundException.class)
     public ResponseEntity handleNotFoundException() {
         log.info("This exception handler is called from ExceptionController.class");
         return ResponseEntity.notFound().build();

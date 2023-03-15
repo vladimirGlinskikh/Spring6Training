@@ -1,5 +1,9 @@
 package kz.zhelezyaka.spring6Training_5.exceptions;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+@ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "Value is Not Found")
 public class NotFoundException extends RuntimeException {
     public NotFoundException() {
     }
