@@ -1,5 +1,6 @@
 package kz.zhelezyaka.spring6Training_5.controller;
 
+import kz.zhelezyaka.spring6Training_5.exceptions.NotFoundException;
 import kz.zhelezyaka.spring6Training_5.model.Customer;
 import kz.zhelezyaka.spring6Training_5.services.CustomerService;
 import lombok.RequiredArgsConstructor;
@@ -59,6 +60,6 @@ public class CustomerController {
     @GetMapping(value = CUSTOMER_PATH_ID)
     public Customer getCustomerById(@PathVariable("customerId") UUID customerId) {
         log.debug("Get Customer by id - in controller");
-        return customerService.getCustomerById(customerId);
+        return customerService.getCustomerById(customerId).orElseThrow(NotFoundException::new);
     }
 }

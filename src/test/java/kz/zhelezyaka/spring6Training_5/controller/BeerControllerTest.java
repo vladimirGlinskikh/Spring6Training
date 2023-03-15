@@ -1,7 +1,6 @@
 package kz.zhelezyaka.spring6Training_5.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import kz.zhelezyaka.spring6Training_5.exceptions.NotFoundException;
 import kz.zhelezyaka.spring6Training_5.model.Beer;
 import kz.zhelezyaka.spring6Training_5.services.BeerServices;
 import kz.zhelezyaka.spring6Training_5.services.BeerServicesImpl;
@@ -17,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -126,7 +126,7 @@ class BeerControllerTest {
 
     @Test
     void getBeerByIdNotFound() throws Exception {
-        given(beerServices.getBeerById(any(UUID.class))).willThrow(NotFoundException.class);
+        given(beerServices.getBeerById(any(UUID.class))).willReturn(Optional.empty());
 
         mockMvc.perform(get(BeerController.BEER_PATH_ID, UUID.randomUUID()))
                 .andExpect(status().isNotFound());
@@ -137,7 +137,7 @@ class BeerControllerTest {
         Beer testBeer = beerServicesImpl.listBeers().get(0);
 
         given(beerServices.getBeerById(testBeer.getId()))
-                .willReturn(testBeer);
+                .willReturn(Optional.of(testBeer));
 
         mockMvc.perform(get(BeerController.BEER_PATH_ID, testBeer.getId())
                         .accept(MediaType.APPLICATION_JSON))
