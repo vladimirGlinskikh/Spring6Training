@@ -1,5 +1,6 @@
 package kz.zhelezyaka.spring6Training_5.controller;
 
+import kz.zhelezyaka.spring6Training_5.exceptions.NotFoundException;
 import kz.zhelezyaka.spring6Training_5.model.Beer;
 import kz.zhelezyaka.spring6Training_5.services.BeerServices;
 import lombok.RequiredArgsConstructor;
@@ -51,6 +52,12 @@ public class BeerController {
     @GetMapping(value = BEER_PATH)
     public List<Beer> listBeers() {
         return beerServices.listBeers();
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity handleNotFoundException() {
+        log.info("This called from exception handler... ");
+        return ResponseEntity.notFound().build();
     }
 
     @GetMapping(value = BEER_PATH_ID)
