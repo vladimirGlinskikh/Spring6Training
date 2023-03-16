@@ -1,21 +1,21 @@
 package kz.zhelezyaka.spring6Training_5.services;
 
-import kz.zhelezyaka.spring6Training_5.model.Beer;
+import kz.zhelezyaka.spring6Training_5.model.BeerDTO;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 public interface BeerServices {
-    List<Beer> listBeers();
+    List<BeerDTO> listBeers();
 
-    Optional<Beer> getBeerById(UUID id);
+    Optional<BeerDTO> getBeerById(UUID id);
 
-    Beer saveNewBeer(Beer beer);
+    BeerDTO saveNewBeer(BeerDTO beer);
 
-    void updateBeerById(UUID beerId, Beer beer);
+    void updateBeerById(UUID beerId, BeerDTO beer);
 
     void deleteById(UUID beerId);
 
-    void patchBeerById(UUID beerId, Beer beer);
+    void patchBeerById(UUID beerId, BeerDTO beer);
 }
