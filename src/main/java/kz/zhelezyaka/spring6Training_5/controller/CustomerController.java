@@ -52,7 +52,7 @@ public class CustomerController {
         return new ResponseEntity(headers, HttpStatus.CREATED);
     }
 
-    @GetMapping(CUSTOMER_PATH)
+    @GetMapping(value = CUSTOMER_PATH)
     public List<CustomerDTO> listAllCustomers() {
         return customerService.listCustomers();
     }
@@ -60,6 +60,7 @@ public class CustomerController {
     @GetMapping(value = CUSTOMER_PATH_ID)
     public CustomerDTO getCustomerById(@PathVariable("customerId") UUID customerId) {
         log.debug("Get Customer by id - in controller");
-        return customerService.getCustomerById(customerId).orElseThrow(NotFoundException::new);
+        return customerService.getCustomerById(customerId)
+                .orElseThrow(NotFoundException::new);
     }
 }

@@ -14,6 +14,8 @@ public class CustomerServiceImpl implements CustomerService {
     private final Map<UUID, CustomerDTO> customerMap;
 
     public CustomerServiceImpl() {
+        this.customerMap = new HashMap<>();
+
         CustomerDTO customer1 = CustomerDTO.builder()
                 .id(UUID.randomUUID())
                 .customerName("Vladimir")
@@ -38,21 +40,20 @@ public class CustomerServiceImpl implements CustomerService {
                 .updateDate(LocalDateTime.now())
                 .build();
 
-        customerMap = new HashMap<>();
         customerMap.put(customer1.getId(), customer1);
         customerMap.put(customer2.getId(), customer2);
         customerMap.put(customer3.getId(), customer3);
     }
 
     @Override
-    public Optional<CustomerDTO> getCustomerById(UUID id) {
-        log.debug("Get Customer by ID - in service. ID: " + id.toString());
-        return Optional.of(customerMap.get(id));
+    public List<CustomerDTO> listCustomers() {
+        return new ArrayList<>(customerMap.values());
     }
 
     @Override
-    public List<CustomerDTO> listCustomers() {
-        return new ArrayList<>(customerMap.values());
+    public Optional<CustomerDTO> getCustomerById(UUID id) {
+        log.debug("Get Customer by ID - in service. ID: " + id.toString());
+        return Optional.of(customerMap.get(id));
     }
 
     @Override
@@ -76,7 +77,7 @@ public class CustomerServiceImpl implements CustomerService {
         existing.setCreatedDate(LocalDateTime.now());
         existing.setUpdateDate(LocalDateTime.now());
 
-        customerMap.put(existing.getId(), customer);
+        customerMap.put(existing.getId(), existing);
     }
 
     @Override
