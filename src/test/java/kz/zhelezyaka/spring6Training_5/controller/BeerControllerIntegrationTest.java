@@ -3,10 +3,12 @@ package kz.zhelezyaka.spring6Training_5.controller;
 import jakarta.transaction.Transactional;
 import kz.zhelezyaka.spring6Training_5.entities.Beer;
 import kz.zhelezyaka.spring6Training_5.exceptions.NotFoundException;
+import kz.zhelezyaka.spring6Training_5.mappers.BeerMapper;
 import kz.zhelezyaka.spring6Training_5.model.BeerDTO;
 import kz.zhelezyaka.spring6Training_5.repositories.BeerRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,24 @@ class BeerControllerIntegrationTest {
     BeerController beerController;
     @Autowired
     BeerRepository beerRepository;
+    @Autowired
+    BeerMapper beerMapper;
+
+    @Test
+    void updateExistingBeerTest() {
+        Beer beer = beerRepository.findAll().get(0);
+        BeerDTO beerDTO = beerMapper.beerToBeerDTO(beer);
+        beerDTO.setId(null);
+        beerDTO.setVersion(null);
+        final String beerName = "UPDATED";
+        beerDTO.setBeerName(beerName);
+
+        ResponseEntity responseEntity = beerController.updateById(beer.getId(), beerDTO);
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(204));
+
+        Beer updateBeer = beerRepository.findById(beer.getId()).get();
+        assertThat(updateBeer.getBeerName()).isEqualTo(beerName);
+    }
 
     @Rollback
     @Transactional
