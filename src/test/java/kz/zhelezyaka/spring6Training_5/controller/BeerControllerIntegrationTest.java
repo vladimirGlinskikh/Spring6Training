@@ -8,7 +8,6 @@ import kz.zhelezyaka.spring6Training_5.model.BeerDTO;
 import kz.zhelezyaka.spring6Training_5.repositories.BeerRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +28,18 @@ class BeerControllerIntegrationTest {
     @Autowired
     BeerMapper beerMapper;
 
+    @Rollback
+    @Transactional
+    @Test
+    void testDeleteByIdFound() {
+        Beer beer = beerRepository.findAll().get(0);
+        ResponseEntity responseEntity = beerController.deleteById(beer.getId());
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(204));
+        assertThat(beerRepository.findById(beer.getId()).isEmpty());
+    }
+
+    @Rollback
+    @Transactional
     @Test
     void testUpdateNotFound() {
         assertThrows(NotFoundException.class, () -> {
@@ -37,6 +48,8 @@ class BeerControllerIntegrationTest {
         });
     }
 
+    @Rollback
+    @Transactional
     @Test
     void updateExistingBeerTest() {
         Beer beer = beerRepository.findAll().get(0);
