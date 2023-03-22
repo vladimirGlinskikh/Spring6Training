@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @Service
 @Primary
 @RequiredArgsConstructor
-public class BeerServicesJPA implements BeerServices {
+public class BeerServiceJPA implements BeerService {
     private final BeerRepository beerRepository;
     private final BeerMapper beerMapper;
 
@@ -60,8 +60,12 @@ public class BeerServicesJPA implements BeerServices {
     }
 
     @Override
-    public void deleteById(UUID beerId) {
-        beerRepository.deleteById(beerId);
+    public Boolean deleteById(UUID beerId) {
+        if (beerRepository.existsById(beerId)) {
+            beerRepository.deleteById(beerId);
+            return true;
+        }
+        return false;
     }
 
     @Override

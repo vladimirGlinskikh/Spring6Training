@@ -12,10 +12,10 @@ import java.util.*;
 
 @Slf4j
 @Service
-public class BeerServicesImpl implements BeerServices {
+public class BeerServiceImpl implements BeerService {
     private final Map<UUID, BeerDTO> beerMap;
 
-    public BeerServicesImpl() {
+    public BeerServiceImpl() {
         this.beerMap = new HashMap<>();
 
         BeerDTO beer1 = BeerDTO.builder()
@@ -98,8 +98,9 @@ public class BeerServicesImpl implements BeerServices {
     }
 
     @Override
-    public void deleteById(UUID beerId) {
+    public Boolean deleteById(UUID beerId) {
         beerMap.remove(beerId);
+        return true;
     }
 
     @Override
