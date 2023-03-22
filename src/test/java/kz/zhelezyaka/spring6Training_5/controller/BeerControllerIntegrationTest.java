@@ -30,6 +30,14 @@ class BeerControllerIntegrationTest {
     BeerMapper beerMapper;
 
     @Test
+    void testUpdateNotFound() {
+        assertThrows(NotFoundException.class, () -> {
+            beerController.updateById(UUID.randomUUID(),
+                    BeerDTO.builder().build());
+        });
+    }
+
+    @Test
     void updateExistingBeerTest() {
         Beer beer = beerRepository.findAll().get(0);
         BeerDTO beerDTO = beerMapper.beerToBeerDTO(beer);
