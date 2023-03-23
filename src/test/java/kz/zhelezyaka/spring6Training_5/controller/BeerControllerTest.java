@@ -1,5 +1,6 @@
 package kz.zhelezyaka.spring6Training_5.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kz.zhelezyaka.spring6Training_5.model.BeerDTO;
 import kz.zhelezyaka.spring6Training_5.services.BeerService;
@@ -49,6 +50,20 @@ class BeerControllerTest {
     @BeforeEach
     void setUp() {
         beerServicesImpl = new BeerServiceImpl();
+    }
+
+    @Test
+    void testCreateBeerNullBeerName() throws Exception {
+        BeerDTO beerDTO = BeerDTO.builder().build();
+
+        given(beerService.saveNewBeer(any(BeerDTO.class)))
+                .willReturn(beerServicesImpl.listBeers().get(1));
+
+        mockMvc.perform(post(BeerController.BEER_PATH)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(beerDTO)))
+                .andExpect(status().isBadRequest());
     }
 
     @Test
