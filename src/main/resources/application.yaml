@@ -8,13 +8,20 @@ spring:
       pool-name: RestDB-Pool
       maximum-pool-size: 5
 
-
   jpa:
     hibernate:
       ddl-auto: update
     defer-datasource-initialization: true
     database: mysql
     properties:
+#      jakarta:
+#        persistence:
+#          schema-generation:
+#            scripts:
+#              action: drop-and-create
+#              create-source: metadata
+#              drop-target: drop-and-create.sql
+#              create-target: drop-and-create.sql
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
         show_sql: true
@@ -23,3 +30,5 @@ spring:
 logging:
   level:
     org.hibernate.orm.jdbc.bind: trace
+    kz:
+      zhelezyaka: debug
