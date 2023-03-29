@@ -2,6 +2,7 @@ package kz.zhelezyaka.spring6Training_5.controller;
 
 import kz.zhelezyaka.spring6Training_5.exceptions.NotFoundException;
 import kz.zhelezyaka.spring6Training_5.model.BeerDTO;
+import kz.zhelezyaka.spring6Training_5.model.BeerStyle;
 import kz.zhelezyaka.spring6Training_5.services.BeerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -60,8 +61,9 @@ public class BeerController {
     }
 
     @GetMapping(value = BEER_PATH)
-    public List<BeerDTO> listBeers(@RequestParam(required = false) String beerName) {
-        return beerService.listBeers(beerName);
+    public List<BeerDTO> listBeers(@RequestParam(required = false) String beerName,
+                                   @RequestParam(required = false) BeerStyle beerStyle) {
+        return beerService.listBeers(beerName, beerStyle);
     }
 
     @GetMapping(value = BEER_PATH_ID)

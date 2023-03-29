@@ -3,13 +3,13 @@ package kz.zhelezyaka.spring6Training_5.services;
 import kz.zhelezyaka.spring6Training_5.entities.Beer;
 import kz.zhelezyaka.spring6Training_5.mappers.BeerMapper;
 import kz.zhelezyaka.spring6Training_5.model.BeerDTO;
+import kz.zhelezyaka.spring6Training_5.model.BeerStyle;
 import kz.zhelezyaka.spring6Training_5.repositories.BeerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -24,11 +24,13 @@ public class BeerServiceJPA implements BeerService {
     private final BeerMapper beerMapper;
 
     @Override
-    public List<BeerDTO> listBeers(String beerName) {
+    public List<BeerDTO> listBeers(String beerName, BeerStyle beerStyle) {
         List<Beer> beerList;
 
-        if (StringUtils.hasText(beerName)) {
+        if (StringUtils.hasText(beerName) && beerStyle == null) {
             beerList = listBeerByName(beerName);
+        } else if (!StringUtils.hasText(beerName) && beerStyle != null) {
+            beerList = listBeerByStyle(beerStyle);
         } else {
             beerList = beerRepository.findAll();
         }
@@ -36,6 +38,10 @@ public class BeerServiceJPA implements BeerService {
         return beerList.stream()
                 .map(beerMapper::beerToBeerDTO)
                 .collect(Collectors.toList());
+    }
+
+    public List<Beer> listBeerByStyle(BeerStyle beerStyle) {
+        return beerRepository.findAllByBeerStyle(beerStyle);
     }
 
     public List<Beer> listBeerByName(String beerName) {

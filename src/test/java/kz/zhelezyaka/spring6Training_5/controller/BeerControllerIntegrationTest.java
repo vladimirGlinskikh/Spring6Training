@@ -6,6 +6,7 @@ import kz.zhelezyaka.spring6Training_5.entities.Beer;
 import kz.zhelezyaka.spring6Training_5.exceptions.NotFoundException;
 import kz.zhelezyaka.spring6Training_5.mappers.BeerMapper;
 import kz.zhelezyaka.spring6Training_5.model.BeerDTO;
+import kz.zhelezyaka.spring6Training_5.model.BeerStyle;
 import kz.zhelezyaka.spring6Training_5.repositories.BeerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -47,6 +48,14 @@ class BeerControllerIntegrationTest {
     @Autowired
     WebApplicationContext webApplicationContext;
     MockMvc mockMvc;
+
+    @Test
+    void testListBeersByStyle() throws Exception {
+        mockMvc.perform(get(BeerController.BEER_PATH)
+                        .queryParam("beerStyle", BeerStyle.IPA.name()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.size()", is(548)));
+    }
 
     @Test
     void testListBeersByName() throws Exception {
@@ -161,7 +170,7 @@ class BeerControllerIntegrationTest {
 
     @Test
     void testListBeers() {
-        List<BeerDTO> dtos = beerController.listBeers(null);
+        List<BeerDTO> dtos = beerController.listBeers(null, null);
         assertThat(dtos.size()).isEqualTo(2413);
     }
 
@@ -170,7 +179,7 @@ class BeerControllerIntegrationTest {
     @Test
     void testEmptyList() {
         beerRepository.deleteAll();
-        List<BeerDTO> dtos = beerController.listBeers(null);
+        List<BeerDTO> dtos = beerController.listBeers(null, null);
         assertThat(dtos.size()).isEqualTo(0);
     }
 }
