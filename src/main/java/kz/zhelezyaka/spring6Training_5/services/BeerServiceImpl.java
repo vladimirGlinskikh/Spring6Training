@@ -3,6 +3,8 @@ package kz.zhelezyaka.spring6Training_5.services;
 import kz.zhelezyaka.spring6Training_5.model.BeerDTO;
 import kz.zhelezyaka.spring6Training_5.model.BeerStyle;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -60,13 +62,13 @@ public class BeerServiceImpl implements BeerService {
     }
 
     @Override
-    public List<BeerDTO> listBeers(
+    public Page<BeerDTO> listBeers(
             String beerName,
             BeerStyle beerStyle,
             Boolean showInventory,
             Integer pageNumber,
             Integer pageSize) {
-        return new ArrayList<>(beerMap.values());
+        return new PageImpl<>(new ArrayList<>(beerMap.values()));
     }
 
     @Override

@@ -2,13 +2,13 @@ package kz.zhelezyaka.spring6Training_5.services;
 
 import kz.zhelezyaka.spring6Training_5.model.BeerDTO;
 import kz.zhelezyaka.spring6Training_5.model.BeerStyle;
+import org.springframework.data.domain.Page;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 public interface BeerService {
-    List<BeerDTO> listBeers(String beerName,
+    Page<BeerDTO> listBeers(String beerName,
                             BeerStyle beerStyle,
                             Boolean showInventory,
                             Integer pageNumber,
