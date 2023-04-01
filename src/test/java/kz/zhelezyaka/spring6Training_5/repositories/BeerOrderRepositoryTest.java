@@ -1,6 +1,8 @@
 package kz.zhelezyaka.spring6Training_5.repositories;
 
+import jakarta.transaction.Transactional;
 import kz.zhelezyaka.spring6Training_5.entities.Beer;
+import kz.zhelezyaka.spring6Training_5.entities.BeerOrder;
 import kz.zhelezyaka.spring6Training_5.entities.Customer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,13 +31,14 @@ class BeerOrderRepositoryTest {
         testBeer = beerRepository.findAll().get(0);
     }
 
+    @Transactional
     @Test
     void testBeerOrders() {
-        System.out.println(beerOrderRepository.count());
-        System.out.println(customerRepository.count());
-        System.out.println(beerRepository.count());
-
-        System.out.println(testCustomer.getCustomerName());
-        System.out.println(testBeer.getBeerName());
+        BeerOrder beerOrder = BeerOrder.builder()
+                .customerRef("Test order")
+                .customer(testCustomer)
+                .build();
+        BeerOrder savedBeerOrder = beerOrderRepository.saveAndFlush(beerOrder);
+        System.out.println(savedBeerOrder.getCustomerRef());
     }
 }
