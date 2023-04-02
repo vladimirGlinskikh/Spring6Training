@@ -44,11 +44,18 @@ public class Beer {
     @Size(max = 255)
     private String upc;
     private Integer quantityOnHand;
+
     @NotNull
     private BigDecimal price;
 
     @OneToMany(mappedBy = "beer")
     private Set<BeerOrderLine> beerOrderLines;
+
+    @ManyToMany
+    @JoinTable(name = "beer_category",
+            joinColumns = @JoinColumn(name = "beer_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private Set<Category> categories;
 
     @CreationTimestamp
     private LocalDateTime createDate;
