@@ -3,6 +3,7 @@ package kz.zhelezyaka.spring6Training_5.repositories;
 import jakarta.transaction.Transactional;
 import kz.zhelezyaka.spring6Training_5.entities.Beer;
 import kz.zhelezyaka.spring6Training_5.entities.BeerOrder;
+import kz.zhelezyaka.spring6Training_5.entities.BeerOrderShipment;
 import kz.zhelezyaka.spring6Training_5.entities.Customer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,6 +38,9 @@ class BeerOrderRepositoryTest {
         BeerOrder beerOrder = BeerOrder.builder()
                 .customerRef("Test order")
                 .customer(testCustomer)
+                .beerOrderShipment(BeerOrderShipment.builder()
+                        .trackingNumber("12345")
+                        .build())
                 .build();
         BeerOrder savedBeerOrder = beerOrderRepository.save(beerOrder);
         System.out.println(savedBeerOrder.getCustomerRef());
