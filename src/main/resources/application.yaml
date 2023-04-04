@@ -6,4 +6,6 @@ logging:
 spring:
   flyway:
     enabled: false
-
+  data:
+    rest:
+      base-path: /api/v1
