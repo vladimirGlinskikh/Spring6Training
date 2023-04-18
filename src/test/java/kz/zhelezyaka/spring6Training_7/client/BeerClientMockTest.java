@@ -68,6 +68,28 @@ public class BeerClientMockTest {
     }
 
     @Test
+    void testListBeersWithQueryParam() throws JsonProcessingException {
+        String response = objectMapper.writeValueAsString(getPage());
+
+        URI uri = UriComponentsBuilder.fromHttpUrl(URL + BeerClientImpl.GET_BEER_PATH)
+                .queryParam("beerName", "ALE")
+                .build().toUri();
+
+        server.expect(method(HttpMethod.GET))
+                .andExpect(requestTo(uri))
+                .andExpect(queryParam("beerName", "ALE"))
+                .andRespond(withSuccess(response, MediaType.APPLICATION_JSON));
+
+        Page<BeerDTO> responsePage = beerClient
+                .listBeers("ALE",
+                        null,
+                        null,
+                        null,
+                        null);
+        assertThat(responsePage.getContent().size()).isEqualTo(1);
+    }
+
+    @Test
     void testDeleteNotFound() {
         server.expect(method(HttpMethod.DELETE))
                 .andExpect(requestToUriTemplate(URL +
@@ -75,7 +97,7 @@ public class BeerClientMockTest {
                         dto.getId()))
                 .andRespond(withResourceNotFound());
 
-        assertThrows(HttpClientErrorException.class, () ->{
+        assertThrows(HttpClientErrorException.class, () -> {
             beerClient.deleteBeer(dto.getId());
         });
     }
