@@ -1,6 +1,7 @@
 package kz.zhelezyaka.spring6Training_5.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import kz.zhelezyaka.spring6Training_5.config.SpringConfig;
 import kz.zhelezyaka.spring6Training_5.model.BeerDTO;
 import kz.zhelezyaka.spring6Training_5.services.BeerService;
 import kz.zhelezyaka.spring6Training_5.services.BeerServiceImpl;
@@ -11,6 +12,7 @@ import org.mockito.Captor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -30,6 +32,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(BeerController.class)
+@Import(SpringConfig.class)
 class BeerControllerTest {
     @Autowired
     MockMvc mockMvc;

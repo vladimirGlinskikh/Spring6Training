@@ -2,6 +2,9 @@ logging:
   level:
     kz:
       zhelezyaka: debug
+#    org:
+#      springframework:
+#        security: trace
 
 spring:
   flyway:
@@ -13,3 +16,4 @@ spring:
     user:
       name: user1
       password: password
+
