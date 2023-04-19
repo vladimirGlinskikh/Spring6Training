@@ -17,3 +17,8 @@ spring:
       name: user1
       password: password
 
+rest:
+  template:
+    rootUrl: http://localhost:8080
+    username: user1
+    password: password
