@@ -9,11 +9,20 @@ import org.springframework.security.config.annotation.web.configurers.oauth2.ser
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.oauth2.core.AuthorizationGrantType;
+import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
+import org.springframework.security.oauth2.core.oidc.OidcScopes;
+import org.springframework.security.oauth2.server.authorization.client.InMemoryRegisteredClientRepository;
+import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
+import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
+import org.springframework.security.oauth2.server.authorization.settings.ClientSettings;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
+
+import java.util.UUID;
 
 @Configuration
 public class SecurityConfig {
@@ -22,31 +31,77 @@ public class SecurityConfig {
     @Order(1)
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
-        http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
-                .oidc(Customizer.withDefaults());
-        http
-                .exceptionHandling((exceptions) -> exceptions
-                        .authenticationEntryPoint(
-                                new LoginUrlAuthenticationEntryPoint("/login")))
-                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
+        http.getConfigurer(OAuth2AuthorizationServerConfigurer.class).oidc(Customizer.withDefaults());
+        http.exceptionHandling((exceptions) -> exceptions.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))).oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
         return http.build();
     }
 
     @Bean
     @Order(2)
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests((authorize) -> authorize.anyRequest().authenticated())
-                .formLogin(Customizer.withDefaults());
+        http.authorizeHttpRequests((authorize) -> authorize.anyRequest()
+                .authenticated()).formLogin(Customizer.withDefaults());
         return http.build();
     }
 
     @Bean
     public UserDetailsService userDetailsService() {
         UserDetails userDetails = User.withDefaultPasswordEncoder()
-                .username("user")
-                .password("password")
-                .roles("USER")
-                .build();
+                .username("user").password("password").roles("USER").build();
         return new InMemoryUserDetailsManager(userDetails);
+    }
+
+    // Создаем бин RegisteredClientRepository,
+    // который может быть использован для регистрации клиентов на OAuth 2.0 сервере
+    @Bean
+    public RegisteredClientRepository registeredClientRepository() {
+
+        // Создаем новый объект RegisteredClient с помощью его построителя с заданным идентификатором
+        RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
+
+                // Устанавливаем идентификатор клиента
+                .clientId("messaging-client")
+
+                // Устанавливаем секрет клиента
+                // (используется метод безопасности NoOp для тестовых целей)
+                .clientSecret("{noop}secret")
+
+                // Устанавливаем метод аутентификации клиента
+                // (в данном случае - базовая аутентификация с использованием секрета клиента)
+                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+
+                // Устанавливаем типы разрешений на авторизацию,
+                // которые может использовать клиент
+                // (в данном случае - авторизация по коду авторизации,
+                // обновление токена и учетные данные клиента)
+                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+                .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
+                .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+
+                // Устанавливаем список разрешенных доменов перенаправления
+                // (в данном случае, два URI:
+                // для перенаправления после успешной авторизации и
+                // для перенаправления при ошибке авторизации)
+                .redirectUri("http://127.0.0.1:8000/login/oauth2/code/messaging-client-oidc")
+                .redirectUri("http://127.0.0.1:8080/authorized")
+
+                // Устанавливаем список запрашиваемых областей
+                // (в данном случае, общие данные о профиле пользователя и
+                // возможность чтения и записи сообщений)
+                .scope(OidcScopes.OPENID)
+                .scope(OidcScopes.PROFILE)
+                .scope("message.read")
+                .scope("message.write")
+
+                // Устанавливаем настройки клиента
+                // (в данном случае, требуем согласие пользователя перед авторизацией)
+                .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
+
+                // Создаем объект RegisteredClient
+                .build();
+
+        // Создаем новый репозиторий RegisteredClientRepository и
+        // добавляем туда только что созданный клиент
+        return new InMemoryRegisteredClientRepository(registeredClient);
     }
 }
