@@ -94,7 +94,7 @@ public class SecurityConfig {
                 // для перенаправления после успешной авторизации и
                 // для перенаправления при ошибке авторизации)
                 .redirectUri("http://127.0.0.1:8000/login/oauth2/code/messaging-client-oidc")
-                .redirectUri("http://127.0.0.1:8080/authorized")
+                .redirectUri("http://127.0.0.1:8081/authorized")
 
                 // Устанавливаем список запрашиваемых областей
                 // (в данном случае, общие данные о профиле пользователя и

@@ -2,33 +2,15 @@ logging:
   level:
     kz:
       zhelezyaka: debug
-#    org:
-#      springframework:
-#        security: trace
 
 spring:
-  flyway:
-    enabled: false
-  data:
-    rest:
-      base-path: /api/v1
   security:
     oauth2:
       resourceserver:
         jwt:
           issuer-uri: http://localhost:9000
-
-#    user:
-#      name: user1
-#      password: password
-
-
-
-rest:
-  template:
-    rootUrl: http://localhost:8080
-    username: user1
-    password: password
-
-server:
-  port: 9000
+  flyway:
+    enabled: false
+  data:
+    rest:
+      base-path: /api/v1
