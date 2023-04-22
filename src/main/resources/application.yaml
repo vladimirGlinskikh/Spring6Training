@@ -22,3 +22,6 @@ rest:
     rootUrl: http://localhost:8080
     username: user1
     password: password
+
+server:
+  port: 9000
