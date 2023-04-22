@@ -13,9 +13,16 @@ spring:
     rest:
       base-path: /api/v1
   security:
-    user:
-      name: user1
-      password: password
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9000
+
+#    user:
+#      name: user1
+#      password: password
+
+
 
 rest:
   template:
