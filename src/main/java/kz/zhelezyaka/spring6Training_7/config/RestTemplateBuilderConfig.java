@@ -10,14 +10,8 @@ import org.springframework.web.util.DefaultUriBuilderFactory;
 @Configuration
 public class RestTemplateBuilderConfig {
 
-    @Value("${rest.template.rootUrl}")
+    @Value("http://localhost:8080")
     String rootUrl;
-
-    @Value("${rest.template.username}")
-    String username;
-
-    @Value("${rest.template.password}")
-    String password;
 
     @Bean
     RestTemplateBuilder restTemplateBuilder(RestTemplateBuilderConfigurer configurer) {
@@ -25,7 +19,6 @@ public class RestTemplateBuilderConfig {
         assert rootUrl != null;
 
         return configurer.configure(new RestTemplateBuilder())
-                .basicAuthentication(username, password)
                 .uriTemplateHandler(new DefaultUriBuilderFactory(rootUrl));
     }
 }
