@@ -87,7 +87,7 @@ class BeerClientImplTest {
     @Test
     void listBeers() {
         beerClient.listBeers(
-                "LAGER",
+                "ALE",
                 null,
                 null,
                 null,
